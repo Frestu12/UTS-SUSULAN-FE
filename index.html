@@ -4,76 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.NoerAlfiansyah-MI21A</title>
+    <title>Restu Fauzi Lesmana-MI21A</title>
 
-    <style>
-        table,th,tr,td{
-            border: 1px solid;
-            padding: 10px;
-        }
-        thead{
-            text-align: center;
-            font-weight: 900;
-        }
-        img{
-            width: 100px;
-            height: 100px;
-        }
-        .box1{
-margin: 80px;
-width:120px;
-height:230px;
-border:solid 3px black;
-text-align:left;
-}
-.box2{
-margin: 80px;
-width:120px;
-height:230px;
-border:solid 3px black;
-text-align:left;
-}
-.box3{
-margin: 80px;
-width:120px;
-height:230px;
-border:solid 3px black;
-text-align:left;
-}
-.btn{
-    background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 7px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 10px;
-}
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Bakso Japri</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptatem rem vero ut nam debitis excepturi adipisci. Mollitia accusantium, libero illum obcaecati aspernatur dignissimos cum eius consequuntur laboriosam, voluptates veniam?</p>
-    <div class="container-fluid">
-        <form action="" method="post" id="form-input">
-            <p>Nama Pemesan : <input type="text" placeholder="Nama Lengkap" id="name" name="name"></p>
-            <div class="box">
-            <div class="box1">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="img/Mie_Bakso_Halus.jpg" alt="Card image cap" style="margin: 10px;">
-                    <div class="card-body">
-                      <h5 class="card-title" style="margin: 10px;" id="order" value="Mie Bakso Halus"><b>Mie Bakso Halus</b></h5>
-                      <p class="card-text" style="margin: 10px;" id="price" value="10000">Rp. 10.000</p>
-                      <button type="submit" class="btn btn-primary" style="margin: 10px;" onclick="myFunction()">Pesan</button>
-                    </div>
-                  </div>
-            </div>
-        </div>
-        
+    <h1>Bakso Cisayong Nikmat</h1>
+    <p>Bakso Cisayong Nikmat adalah bakso dengan cita rasa khas dari Cisayong. Berisi kombinasi daging sapi pilihan dengan racikan rempah yang lezat. Selain itu tersedia juga beberapa menu lainnya.</p>
+    <form id="form_pesan">
+        <p>Nama Pemesan : <input type="text" name="name" id="nama_pemesan"></p>
+        <div class="menu-container"></div>
     </form>
-    </div>
     <div style="margin-top: 10px;">
         <table>
             <thead>
@@ -87,42 +29,152 @@ text-align:left;
                     <td>Aksi</td>
                 </tr>
             </thead>
-            <tbody id="result"></tbody>
+            <tbody id="result"></tbody> 
         </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script>
-        const getData = async() => {
-            await axios.get(`http://localhost:3000/menu`)
-            .then((response) => {
-                let bucket = ``;
-                let menu = response.data;
-                for(let i = 0; i<menu.length; i++){
-                    bucket += `
-                    <tr>
-                        <td>${i+1}</td>
-                        <td>${menu[i].name}</td>
-                        <td>${menu[i].order}</td>
-                        <td>${menu[i].count}</td>
-                        <td>${menu[i].price}</td>
-                        <td>10000</td>
-                        <td><button onclick="deleteData('${menu[i].id}')">Delete</button></td>
-                    </tr>
-                    `
-                }
-                document.getElementById('result').innerHTML = bucket;
-            })
-            .catch((error) => {
-                console.log(error.message);
-                let bucket = `
-                <tr>
-                    <td colspan="4">${error.message}</td>
-                </tr>
-                `;
-                document.getElementById('result').innerHTML = bucket;
-            });
+        const getMenu = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/menu');
+                const menuData = response.data; 
+
+                const menuContainer = document.querySelector('.menu-container');
+
+                menuData.forEach(item => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.classList.add('box');
+
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.style.width = '18rem';
+
+                    const cardImage = document.createElement('img');
+                    cardImage.classList.add('card-img-top');
+                    cardImage.src = `img/food.jpg`;
+                    cardImage.alt = item.name;
+                    cardImage.style.margin = '0px';
+
+                    const cardBody = document.createElement('div');
+                    cardBody.classList.add('card-body');
+
+                    const cardTitle = document.createElement('h5');
+                    cardTitle.classList.add('card-title');
+                    cardTitle.style.margin = '10px';
+                    cardTitle.innerHTML = `<b>${item.name}</b>`;
+
+                    const cardPrice = document.createElement('p');
+                    cardPrice.classList.add('card-text');
+                    cardPrice.style.margin = '10px';
+                    cardPrice.innerHTML = `Rp. ${item.price}`;
+
+                    const orderButton = document.createElement('button');
+                    orderButton.classList.add('btn', 'btn-submit');
+                    orderButton.style.margin = '10px';
+                    orderButton.innerText = 'Pesan';
+
+                    cardBody.appendChild(cardImage);
+                    cardBody.appendChild(cardTitle);
+                    cardBody.appendChild(cardPrice);
+                    cardBody.appendChild(orderButton);
+
+                    card.appendChild(cardBody);
+                    cardDiv.appendChild(card);
+                    menuContainer.appendChild(cardDiv);
+
+                    orderButton.addEventListener('click', async () => {
+                        try {
+                            const namaPemesan = document.getElementById('nama_pemesan').value;
+                            const count = parseInt(prompt('Masukkan jumlah pesanan:', '1'));
+
+                            const selectedItem = menuData.find(menu => menu.name === item.name);
+                            const order = selectedItem.name;
+                            const price = selectedItem.price;
+
+                            const isConfirmed = showConfirmation(namaPemesan, order, count);
+                            
+                            if (isConfirmed) {
+                                const response = await axios.post('http://localhost:3000/orders', {
+                                    name: namaPemesan,
+                                    order: order,
+                                    count: count,
+                                    price: price,
+                                    id: Date.now() 
+                                });
+
+                                alert('Pesanan berhasil ditambahkan!');
+                                getData(); 
+                            } else {
+                                alert('Pesanan dibatalkan.');
+                            }
+                        } catch (error) {
+                            console.error('Gagal menambahkan pesanan:', error);
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('Failed to fetch menu data', error);
+            }
+        };
+
+        getMenu();
+
+        const getData = async () => {
+            await axios.get(`http://localhost:3000/orders`)
+                .then((response) => {
+                    let bucket = '';
+                    let orders = response.data;
+                    for (let i = 0; i < orders.length; i++) {
+                        const totalPrice = orders[i].price * orders[i].count;
+
+                        bucket += `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${orders[i].name}</td>
+                                <td>${orders[i].order}</td>
+                                <td>${orders[i].count}</td>
+                                <td>${orders[i].price}</td>
+                                <td>${totalPrice}</td>
+                                <td><button class="btn btn-cancel" onclick="deleteData(${orders[i].id}, '${orders[i].name}', '${orders[i].order}')">Batal</button></td>
+                            </tr>
+                        `;
+                    }
+                    document.getElementById('result').innerHTML = bucket;
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    let bucket = `
+                        <tr>
+                            <td colspan="4">${error.message}</td>
+                        </tr>
+                    `;
+                    document.getElementById('result').innerHTML = bucket;
+                });
         }
         getData();
+
+        const deleteData = async (id, name, order) => {
+            try {
+                const confirmation = confirm(`Apakah Anda ingin membatalkan pesanan atas nama '${name}' dengan pesanan '${order}' ?`);
+                if (confirmation) {
+                    await axios.delete(`http://localhost:3000/orders/${id}`);
+                    console.log(`Pesanan dengan ID ${id} berhasil dihapus.`);
+                    getData();
+                } else {
+                    alert('Pembatalan pesanan dibatalkan.');
+                }
+            } catch (error) {
+                console.error('Gagal menghapus data:', error);
+            }
+        };
+
+
+        const showConfirmation = (namaPemesan, order, count) => {
+            const confirmation = confirm(`Pesanan atas nama "${namaPemesan}" memesan makanan "${order}" dengan jumlah '${count}' apakah sudah benar?`);
+
+            return confirmation;
+        };
     </script>
 </body>
 </html>

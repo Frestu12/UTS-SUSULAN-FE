@@ -1,18 +1,38 @@
 {
   "menu": [
     {
-      "name": "Muhammad Noer Alfiansyah",
-      "order": "Mie Bakso Halus",
-      "count": "1",
-      "price": "10000",
+      "name": "Mie Bakso Halus",
+      "price": 10000,
       "id": 1
     },
     {
-      "name": "Muhammad Noer Alfiansyah",
-      "order": "Mie Bakso Halus",
-      "count": "1",
-      "price": "10000",
+      "name": "Mie Ayam Special",
+      "price": 12000,
       "id": 2
+    },
+    {
+      "name": "Mie Aceh Special",
+      "price": 12000,
+      "id": 3
+    },
+    {
+      "name": "Nasi Goreng Seafood",
+      "price": 15000,
+      "id": 4
+    },
+    {
+      "name": "Mie Kocok Bandung",
+      "price": 12000,
+      "id": 5
+    }
+  ],
+  "orders": [
+    {
+      "name": "Restu Fauzi Lesmana",
+      "order": "Mie Bakso Halus",
+      "count": 15,
+      "price": 10000,
+      "id": 1703752520083
     }
   ]
 }
